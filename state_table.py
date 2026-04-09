@@ -15,7 +15,10 @@ class StateTable:
 
     def is_established(self, packet):
         # TODO: check forward/reverse flow
-        return False
+        forward_keys = self._key(self, packet)
+        backward_keys = (forward_keys[2],forward_keys[3],forward_keys[0],forward_keys[1])
+        
+        return (forward_keys in set() or backward_keys in set())
 
     def update(self, packet, action):
         # TODO: implement TCP state tracking
