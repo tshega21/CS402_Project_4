@@ -4,6 +4,7 @@ from state_table import StateTable
 
 class Firewall:
     def __init__(self, rules):
+        #Firewall class contains RuleEngine object and StateTable object
         self.rule_engine = RuleEngine(rules)
         self.state_table = StateTable()
 

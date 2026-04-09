@@ -2,7 +2,9 @@ from solution.firewall import Firewall
 from solution.rule_engine import Rule, RuleEngine
 
 
+# **kwargs --> arbitrary number of arguments stored in dict
 def make_packet(**kwargs):
+    #default packet if empty dict is passed in
     pkt = {
         "src_ip": "10.0.0.1",
         "dst_ip": "1.1.1.1",
@@ -11,6 +13,7 @@ def make_packet(**kwargs):
         "protocol": "TCP",
         "flags": []
     }
+    
     pkt.update(kwargs)
     return pkt
 

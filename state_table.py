@@ -1,8 +1,11 @@
 class StateTable:
     def __init__(self):
+        # unordered, unique values
+        # no indexing, use in keyword, like dict but no value
         self.connections = set()
 
     def _key(self, packet):
+        #returns tuple of keys 
         return (
             packet["src_ip"],
             packet["src_port"],
