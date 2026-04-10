@@ -7,6 +7,14 @@ class Rule:
         self.dport = dport
 
     def matches(self, packet):
+        """
+        Evaluates whether packet contains matching src_ip, dst_ip, dst_port, and protcol
+        Args:
+            packet: dictionary containing keys "src_ip", "dst_ip","src_port","dst_port", "protocol","flags"
+
+        Returns:
+            boolean: returns whether or not the packet matches a certain rule
+        """
         rule_dict = [self.src, self.dst, self.dport, self.protocol]
         pkt_keys = ["src_ip","dst_ip","dst_port","protocol"]
 
@@ -18,17 +26,9 @@ class Rule:
             elif rule_dict[i] == packet[pkt_keys[i]]:
                 matches = True
             else:
-                matches = False
-
+                return False
         return matches
-        #if match == True:
-        #    return self.action
-       # else:
-        #    return False
-            
-        # TODO: implement matching logic
-        #ret
-        return False
+
 
 
 class RuleEngine:
@@ -36,14 +36,27 @@ class RuleEngine:
         self.rules = rules
 
     def match(self, packet):
+        """
+        Evaluates whether a packet contains matches a rule in self.rules
+        Args:
+            packet: dictionary containing keys "src_ip", "dst_ip","src_port","dst_port", "protocol","flags"
+
+        Returns:
+            boolean: returns rule.action for first rule that matches the packet
+                     returns "DROP" if there is no matching rule
+        """   
         match = False
         for rule in self.rules:
-             match = rule.matches(packet)
-             if match:
+            print("match check ", rule)
+            match = rule.matches(packet)
+            if match:
+                print("matched! ", rule.action)
                 return rule.action
-        return "DENY"
+        print("no matching packets")
+        return "DROP"
 
 
+"""
 def test():
     pkt = {
         "src_ip": "10.0.0.1",
@@ -54,8 +67,9 @@ def test():
         "flags": []
     }
     
+   
 
-    rules = RuleEngine([Rule("ALLOW", "TCP", "ANY", "ANY", 23),Rule("DROP", "TCP", "ANY", "ANY", 80)])
+    rules = RuleEngine([Rule("ALLOW", "TCP", "ANY", "ANY", 80),Rule("DROP", "TCP", "ANY", "ANY", 80)])
     result = rules.match(pkt)
     
     print(result)
@@ -63,3 +77,4 @@ def test():
 
 if __name__ == "__main__":
     test()
+"""
