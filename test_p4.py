@@ -72,6 +72,7 @@ def test_stateful_connection():
 
 
 def test_established_flow_bypass_rules():
+    # WHY WOULD YOU WANT THIS BEHAVIOUR? 
     fw = Firewall(RuleEngine([
         Rule("DROP", "TCP", "ANY", "ANY", 80)
     ]))
@@ -117,10 +118,10 @@ def test():
     test_basic_drop()
     test_default_drop()
     test_first_match_wins()
-    #test_stateful_connection()
-    #test_established_flow_bypass_rules()
+    test_stateful_connection()
+    test_established_flow_bypass_rules()
     test_udp_not_stateful()
-    #test_reverse_flow()
+    test_reverse_flow()
     print("All tests passed!")
 
 
