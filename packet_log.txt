@@ -1,0 +1,4 @@
+2026-04-13 14:57:02,838 - action: DROP, src_ip: 10.0.0.1, dst_ip: 1.1.1.1, src_port: 1234, dst_port: 23, protocol: TCP, flags: []
+2026-04-13 14:57:02,843 - action: DROP, src_ip: 10.0.0.1, dst_ip: 1.1.1.1, src_port: 1234, dst_port: 9999, protocol: TCP, flags: []
+2026-04-13 14:57:02,843 - action: DROP, src_ip: 10.0.0.1, dst_ip: 1.1.1.1, src_port: 1234, dst_port: 80, protocol: TCP, flags: []
+2026-04-13 14:57:02,843 - action: DROP, src_ip: 10.0.0.1, dst_ip: 1.1.1.1, src_port: 1234, dst_port: 80, protocol: TCP, flags: ['SYN']
