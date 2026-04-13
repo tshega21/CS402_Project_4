@@ -12,6 +12,7 @@ class Firewall:
     def process_packet(self, packet):
         if self.state_table.is_established(packet):
             return "ALLOW"
+        # think we should change this to the action of the packet
 
         action = self.rule_engine.match(packet)
 

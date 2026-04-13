@@ -98,6 +98,7 @@ def test_reverse_flow():
 
     syn = make_packet(flags=["SYN"])
     fw.process_packet(syn)
+    print (fw.process_packet(syn))
 
     reverse_pkt = make_packet(
         src_ip="1.1.1.1",
@@ -106,6 +107,7 @@ def test_reverse_flow():
         dst_port=1234,
         flags=["ACK"]
     )
+    print(fw.process_packet(reverse_pkt))
 
     assert fw.process_packet(reverse_pkt) == "ALLOW"
 
@@ -117,7 +119,7 @@ def test():
     test_first_match_wins()
     #test_stateful_connection()
     #test_established_flow_bypass_rules()
-    #test_udp_not_stateful()
+    test_udp_not_stateful()
     #test_reverse_flow()
     print("All tests passed!")
 

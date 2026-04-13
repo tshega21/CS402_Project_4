@@ -22,9 +22,22 @@ class StateTable:
 
     def update(self, packet, action):
         # TODO: implement TCP state tracking
+        if packet["protocol"] != "TCP":
+            return
         
         #STILL NEED TO FIX
         keys = self._key(packet)
-        pack_and_act = (keys, action)
-        self.connections.add(pack_and_act)
+
+        # think we need to change is_established to track the action as 
+        # well and return he action if established instead of auto allow
+
+        # then track keys, action, and state (syn, syn-ack, or ack)
+        # if syn, create new entry, if syn-ack and is established with state = syn, 
+        # update state to syn-ack, if ack, check if established and state = syn-ack, 
+        # update to ack, otherwise for all, drop (add to table but change action to drop)
+        flags = packet.get("flags", []) 
+        if "SYN" in flags:
+            if "ACK" not in flags:
+                state = (keys, "SYN")
+                self.connections.add(state)
         pass
