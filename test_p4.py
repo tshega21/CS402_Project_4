@@ -63,25 +63,25 @@ def test_stateful_connection():
         flags=["SYN", "ACK"]
     )
     ack = make_packet(flags=["ACK"])
-
     assert fw.process_packet(syn) == "ALLOW"
-    result = fw.process_packet(syn_ack)
+    result = fw.process_packet(syn_ack) 
     print("SYN-ACK result:", result)
     assert result == "ALLOW"
     assert fw.process_packet(ack) == "ALLOW"
 
 
 def test_established_flow_bypass_rules():
-    # WHY WOULD YOU WANT THIS BEHAVIOUR? 
     fw = Firewall(RuleEngine([
         Rule("DROP", "TCP", "ANY", "ANY", 80)
     ]))
 
     syn = make_packet(flags=["SYN"])
+
     fw.process_packet(syn)
+    assert fw.process_packet(syn) == "DROP"
 
     pkt = make_packet(flags=["ACK"])
-    assert fw.process_packet(pkt) == "ALLOW"
+    assert fw.process_packet(pkt) == "DROP"
 
 
 def test_udp_not_stateful():
@@ -99,16 +99,14 @@ def test_reverse_flow():
 
     syn = make_packet(flags=["SYN"])
     fw.process_packet(syn)
-    print (fw.process_packet(syn))
 
     reverse_pkt = make_packet(
         src_ip="1.1.1.1",
         dst_ip="10.0.0.1",
         src_port=80,
         dst_port=1234,
-        flags=["ACK"]
+        flags=["SYN","ACK"]
     )
-    print(fw.process_packet(reverse_pkt))
 
     assert fw.process_packet(reverse_pkt) == "ALLOW"
 

@@ -18,16 +18,10 @@ class Rule:
         rule_dict = [self.src, self.dst, self.dport, self.protocol]
         pkt_keys = ["src_ip","dst_ip","dst_port","protocol"]
 
-        matches = False
-
         for i in range(4):
-            if rule_dict[i] == "ANY":
-                matches = True
-            elif rule_dict[i] == packet[pkt_keys[i]]:
-                matches = True
-            else:
+            if rule_dict[i] != "ANY" and rule_dict[i] != packet[pkt_keys[i]]:
                 return False
-        return matches
+        return True
 
 
 
@@ -45,33 +39,10 @@ class RuleEngine:
             boolean: returns rule.action for first rule that matches the packet
                      returns "DROP" if there is no matching rule
         """   
-        match = False
+        matched = False
         for rule in self.rules:
-            match = rule.matches(packet)
-            if match:
+            matched = rule.matches(packet)
+            if matched:
                 return rule.action
         return "DROP"
 
-
-"""
-def test():
-    pkt = {
-        "src_ip": "10.0.0.1",
-        "dst_ip": "1.1.1.1",
-        "src_port": 1234,
-        "dst_port": 80,
-        "protocol": "TCP",
-        "flags": []
-    }
-    
-   
-
-    rules = RuleEngine([Rule("ALLOW", "TCP", "ANY", "ANY", 80),Rule("DROP", "TCP", "ANY", "ANY", 80)])
-    result = rules.match(pkt)
-    
-    print(result)
-
-
-if __name__ == "__main__":
-    test()
-"""

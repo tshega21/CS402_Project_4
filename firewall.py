@@ -12,15 +12,14 @@ class Firewall:
 
     def process_packet(self, packet):
         if self.state_table.is_established(packet):
-            #print("is established ",self.state_table.is_established(packet), " ", self.state_table)
             return "ALLOW"
 
         action = self.rule_engine.match(packet)
 
         if packet["protocol"] == "TCP":
-            self.state_table.update(packet, action)
-            #print("updated "  ,self.state_table)
-
+            action = self.state_table.update(packet, action)
+         
+         #Logs packets if dropped or the action is LOG
         if action == "DROP" or action == "LOG":
             logging.info(
                 f"action: {action}, "
