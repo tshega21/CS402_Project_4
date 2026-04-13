@@ -22,6 +22,9 @@ class StateTable:
 
     def update(self, packet, action):
         # TODO: implement TCP state tracking
-        pack_and_act = (packet, action)
+        
+        #STILL NEED TO FIX
+        keys = self._key(packet)
+        pack_and_act = (keys, action)
         self.connections.add(pack_and_act)
         pass

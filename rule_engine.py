@@ -47,12 +47,9 @@ class RuleEngine:
         """   
         match = False
         for rule in self.rules:
-            print("match check ", rule)
             match = rule.matches(packet)
             if match:
-                print("matched! ", rule.action)
                 return rule.action
-        print("no matching packets")
         return "DROP"
 
 
