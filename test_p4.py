@@ -1,5 +1,5 @@
-from solution.firewall import Firewall
-from solution.rule_engine import Rule, RuleEngine
+from firewall import Firewall
+from rule_engine import Rule, RuleEngine
 
 
 # **kwargs --> arbitrary number of arguments stored in dict
